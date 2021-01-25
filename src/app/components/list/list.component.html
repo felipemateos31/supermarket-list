@@ -1,0 +1,18 @@
+<ion-list>
+  <ion-item-sliding *ngFor="let item of lists">
+    <ion-item detail (click)="selectedList(item)">
+      <ion-label>{{ item.titleList }}</ion-label>
+      <ion-note slot="end"> {{ item.total | currency }} </ion-note>
+    </ion-item>
+    <ion-item-options side="end">
+      <ion-item-option (click)="deleteList(item)" color="danger">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-item-option>
+    </ion-item-options>
+    <ion-item-options side="start">
+      <ion-item-option (click)="editTitleList(item)" color="success">
+        <ion-icon slot="icon-only" name="create"></ion-icon>
+      </ion-item-option>
+    </ion-item-options>
+  </ion-item-sliding>
+</ion-list>

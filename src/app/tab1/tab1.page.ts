@@ -1,4 +1,8 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
+import { CoreService } from '../core/services/core.service';
+import { IList } from '../core/interfaces/backend-interfaces';
 
 @Component({
   selector: 'app-tab1',
@@ -7,6 +11,50 @@ import { Component } from '@angular/core';
 })
 export class Tab1Page {
 
-  constructor() {}
+  list: IList[];
 
+  constructor(
+    private coreService: CoreService,
+    private router: Router,
+    private alertController: AlertController,
+  ) {
+
+    this.list = coreService.getLists();
+  }
+
+
+  async addNewList() {
+    const alert = this.alertController.create({
+      header: 'Nueva Lista',
+      inputs: [
+        {
+          name: 'titulo',
+          type: 'text',
+          placeholder: 'Nombre de la lista',
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+        },
+        {
+          text: 'Agregar',
+          handler: (data) => {
+            if (data.titulo.length === 0) {
+              return;
+            }
+            // const listId = this.wishesService.crearLista(data.titulo);
+            this.router.navigateByUrl(`/tabs/tab1/add-items/1`);
+          }
+        }
+      ]
+    });
+
+    (await alert).present();
+  }
+
+  selectedList(listId: number) {
+    this.router.navigateByUrl(`/tabs/tab1/add-items/${listId}`);
+  }
 }
