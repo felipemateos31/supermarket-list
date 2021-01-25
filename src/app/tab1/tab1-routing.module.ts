@@ -8,8 +8,12 @@ const routes: Routes = [
     component: Tab1Page,
   },
   {
-    path: 'add-items/:id',
-    loadChildren: () => import('./pages/add-items/add-items.module').then( m => m.AddItemsPageModule)
+    path: 'list-items/:id',
+    loadChildren: () => import('./pages/list-items/list-items.module').then(m => m.ListItemsPageModule)
+  },
+  {
+    path: 'add-item/:id',
+    loadChildren: () => import('./pages/add-item/add-item.module').then( m => m.AddItemPageModule)
   }
 ];
 
@@ -17,4 +21,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class Tab1PageRoutingModule {}
+export class Tab1PageRoutingModule { }

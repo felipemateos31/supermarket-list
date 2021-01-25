@@ -18,8 +18,7 @@ export class Tab1Page {
     private router: Router,
     private alertController: AlertController,
   ) {
-
-    this.list = coreService.getLists();
+    this.list = this.coreService.getLists();
   }
 
 
@@ -45,7 +44,7 @@ export class Tab1Page {
               return;
             }
             // const listId = this.wishesService.crearLista(data.titulo);
-            this.router.navigateByUrl(`/tabs/tab1/add-items/1`);
+            // this.router.navigateByUrl(`/tabs/tab1/list-items/${listId}`);
           }
         }
       ]
@@ -55,6 +54,6 @@ export class Tab1Page {
   }
 
   selectedList(listId: number) {
-    this.router.navigateByUrl(`/tabs/tab1/add-items/${listId}`);
+    this.router.navigateByUrl(`/tabs/tab1/list-items/${listId}`);
   }
 }
