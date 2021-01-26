@@ -16,6 +16,7 @@ export class ListComponent implements OnInit {
 
   @Input() lists: IList[];
   @Output() selected = new EventEmitter<number>();
+  @Output() deleted = new EventEmitter<boolean>();
 
   constructor(
     private coreService: CoreService,
@@ -34,6 +35,7 @@ export class ListComponent implements OnInit {
 
   deleteList(list: IList) {
     this.coreService.deleteList(list);
+    this.deleted.emit(true);
   }
 
   async editTitleList(list: IList) {

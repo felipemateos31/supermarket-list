@@ -64,4 +64,8 @@ export class Tab1Page {
   selectedList(listId: number) {
     this.router.navigateByUrl(`/tabs/tab1/list-items/${listId}`);
   }
+
+  deleteItem(flag: boolean) {
+    this.list = this.coreService.getLists();
+  }
 }

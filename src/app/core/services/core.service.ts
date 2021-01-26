@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
 import { IList, IListItem } from '../interfaces/backend-interfaces';
 import { Storage } from '@ionic/storage';
-import { title } from 'process';
-import { createHostListener } from '@angular/compiler/src/core';
-import { async } from '@angular/core/testing';
-import { Platform } from '@ionic/angular';
+
 @Injectable({
   providedIn: 'root'
 })
