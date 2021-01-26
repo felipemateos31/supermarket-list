@@ -14,14 +14,16 @@ export class ListComponent implements OnInit {
 
   @ViewChild(IonList) listInternal: IonList;
 
-  @Input() lists: IList;
+  @Input() lists: IList[];
   @Output() selected = new EventEmitter<number>();
 
   constructor(
     private coreService: CoreService,
     private router: Router,
     private alertController: AlertController
-  ) { }
+  ) {
+
+  }
 
   ngOnInit() { }
 
@@ -59,9 +61,9 @@ export class ListComponent implements OnInit {
             if (data.titulo.length === 0) {
               return;
             }
-            // list.titulo = data.titulo;
-            // this.wishesService.guardarStorage();
-            // this.lista.closeSlidingItems();
+            list.titleList = data.titulo;
+            this.coreService.saveData();
+            this.listInternal.closeSlidingItems();
           }
         }
       ]

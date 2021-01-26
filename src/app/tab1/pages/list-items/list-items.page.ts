@@ -35,8 +35,8 @@ export class ListItemsPage implements OnInit {
 
   }
 
-  addItem(listId: number) {
-    this.router.navigateByUrl(`/tabs/tab1/add-item/${listId}`);
+  addItem() {
+    this.router.navigateByUrl(`/tabs/tab1/add-item/${this.list.id}`);
   }
 
 }

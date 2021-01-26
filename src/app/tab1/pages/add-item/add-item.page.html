@@ -38,10 +38,10 @@
             </ion-col>
           </ion-row>
         </ion-grid>
+        <ion-button type="submit" expand="block" [disabled]="!itemForm.valid">
+          Agregar
+        </ion-button>
       </form>
-      <ion-button type="submit" expand="block" [disabled]="!itemForm.valid">
-        Agregar
-      </ion-button>
     </ion-card-content>
 
   </ion-card>

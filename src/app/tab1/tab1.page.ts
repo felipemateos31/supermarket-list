@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
+import { AlertController, Platform } from '@ionic/angular';
 import { CoreService } from '../core/services/core.service';
 import { IList } from '../core/interfaces/backend-interfaces';
 
@@ -17,10 +17,10 @@ export class Tab1Page {
     private coreService: CoreService,
     private router: Router,
     private alertController: AlertController,
+    private plt: Platform,
   ) {
-    this.list = this.coreService.getLists();
+    this.list = coreService.getLists();
   }
-
 
   async addNewList() {
     const alert = this.alertController.create({
@@ -43,13 +43,21 @@ export class Tab1Page {
             if (data.titulo.length === 0) {
               return;
             }
-            // const listId = this.wishesService.crearLista(data.titulo);
-            // this.router.navigateByUrl(`/tabs/tab1/list-items/${listId}`);
+            const list: IList = {
+              id: new Date().getTime(),
+              titleList: data.titulo,
+              creatAt: new Date(),
+              endAt: null,
+              complete: false,
+              items: [],
+              total: 0
+            };
+            const listId = this.coreService.createList(list);
+            this.router.navigateByUrl(`/tabs/tab1/list-items/${listId}`);
           }
         }
       ]
     });
-
     (await alert).present();
   }
 

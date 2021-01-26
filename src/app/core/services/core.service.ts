@@ -1,64 +1,59 @@
 import { Injectable } from '@angular/core';
 import { IList, IListItem } from '../interfaces/backend-interfaces';
-
+import { Storage } from '@ionic/storage';
+import { title } from 'process';
+import { createHostListener } from '@angular/compiler/src/core';
+import { async } from '@angular/core/testing';
+import { Platform } from '@ionic/angular';
 @Injectable({
   providedIn: 'root'
 })
 export class CoreService {
 
-  constructor() { }
+  public lists: IList[] = [];
+
+  constructor(
+    private storage: Storage,
+  ) {
+    this.loadData();
+  }
+
 
   public deleteList(list: IList) {
-
+    this.lists = this.lists.filter(data => data.id !== list.id);
+    this.saveData();
   }
 
   public getLists() {
-
-    const lists: IList[] = [
-      {
-        id: 1,
-        titleList: 'test',
-        creatAt: new Date(),
-        endAt: new Date(),
-        complete: false,
-        items: [],
-        total: 0,
-      },
-    ];
-    return lists;
-
+    return this.lists;
   }
 
   public getList(id: number | string) {
-
-    const itemList: IListItem[] = [
-      {
-        id: 1,
-        description: 'Leche',
-        price: 20,
-        quantity: 2,
-        complete: false,
-      },
-      {
-        id: 2,
-        description: 'Aceite',
-        price: 10.20,
-        quantity: 1,
-        complete: true,
-      },
-
-    ];
-    const list: IList =
-    {
-      id: 1,
-      titleList: 'test',
-      creatAt: new Date(),
-      endAt: new Date(),
-      complete: false,
-      items: itemList,
-      total: 0,
-    };
-
-    return list;
+    id = Number(id);
+    return this.lists.find(data => data.id === id);
   }
+
+  public createList(list: IList) {
+    this.lists.push(list);
+    this.saveData();
+    return list.id;
+  }
+
+  public loadData() {
+    const getItems = async () => {
+      await this.storage.forEach((v, key, i) => {
+        if (key.startsWith('data')) {
+          for (const item of v) {
+            this.lists.push(item);
+          }
+        }
+      });
+    };
+    getItems();
+  }
+
+  public saveData() {
+    this.storage.set('data', this.lists);
+  }
+
 }
