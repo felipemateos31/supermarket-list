@@ -12,6 +12,7 @@ export interface IListItem {
     id: number;
     description: string;
     price?: number;
-    quantity: number;
+    quantity?: number;
+    total?: number;
     complete?: boolean;
 }

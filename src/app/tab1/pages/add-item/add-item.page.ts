@@ -42,17 +42,21 @@ export class AddItemPage implements OnInit {
   }
 
   onItemFormSubmit() {
+    let cost = 0;
+    if (this.price.value && this.quantity.value) {
+      cost = this.price.value * this.quantity.value;
+    }
     const itemList: IListItem = {
-      id: 0,
-      description: this.itemForm.controls.nameItem.value,
-      price: this.itemForm.controls.price.value,
-      quantity: this.itemForm.controls.quantity.value,
+      id: new Date().getTime(),
+      description: this.nameItem.value,
+      price: this.price.value,
+      quantity: this.quantity.value,
+      total: cost,
       complete: false
     };
     this.list.items.push(itemList);
     this.coreService.saveData();
-
-    this.router.navigateByUrl(`/tabs/tab1/list-items/${this.list.id}`);
-  }
+    this.router.navigate(['/app/tab1/list-items/' + this.list.id]);
+}
 
 }
