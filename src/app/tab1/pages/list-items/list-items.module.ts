@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { ListItemsPageRoutingModule } from './list-items-routing.module';
 
 import { ListItemsPage } from './list-items.page';
+import { AddItemPageModule } from '../add-item/add-item.module';
 
 @NgModule({
   imports: [
@@ -14,7 +15,8 @@ import { ListItemsPage } from './list-items.page';
     FormsModule,
     ReactiveFormsModule,
     IonicModule,
-    ListItemsPageRoutingModule
+    ListItemsPageRoutingModule,
+    AddItemPageModule,
   ],
   declarations: [ListItemsPage]
 })

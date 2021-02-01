@@ -55,7 +55,7 @@ export class ListPage implements OnInit {
               total: 0
             };
             const listId = this.coreService.createList(list);
-            this.router.navigateByUrl(`/app/tab1/list-items/${listId}`);
+            this.router.navigate(['/app/tab1/list-items/' + listId]);
           }
         }
       ]
@@ -64,7 +64,7 @@ export class ListPage implements OnInit {
   }
 
   selectedList(listId: number) {
-    this.router.navigate([`/app/tab1/list-items/${listId}`]);
+    this.router.navigate(['/app/tab1/list-items/' + listId]);
   }
 
   deleteItem(flag: boolean) {

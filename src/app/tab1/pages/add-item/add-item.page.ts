@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+
 import { IList } from 'src/app/core/interfaces/backend-interfaces';
 import { CoreService } from 'src/app/core/services/core.service';
 import { IListItem } from '../../../core/interfaces/backend-interfaces';
@@ -12,33 +12,34 @@ import { IListItem } from '../../../core/interfaces/backend-interfaces';
 })
 export class AddItemPage implements OnInit {
 
+  @Input() listId;
+  @Output() refresh = new EventEmitter<IListItem>();
+
   itemForm: FormGroup;
   list: IList;
+
+  isMenuOpen = false;
+
 
   get nameItem(): AbstractControl { return this.itemForm.get('nameItem'); }
   get quantity(): AbstractControl { return this.itemForm.get('quantity'); }
   get price(): AbstractControl { return this.itemForm.get('price'); }
 
-
-
   constructor(
     private coreService: CoreService,
-    private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
-    private router: Router,
-
   ) {
-    const id = this.activatedRoute.snapshot.paramMap.get('id');
-    this.list = coreService.getList(id);
 
     this.itemForm = this.formBuilder.group({
       nameItem: ['', Validators.required],
       quantity: [''],
       price: [''],
     });
+
   }
 
   ngOnInit() {
+    this.list = this.coreService.getList(this.listId);
   }
 
   onItemFormSubmit() {
@@ -56,7 +57,16 @@ export class AddItemPage implements OnInit {
     };
     this.list.items.push(itemList);
     this.coreService.saveData();
-    this.router.navigate(['/app/tab1/list-items/' + this.list.id]);
-}
+
+    this.itemForm.reset();
+    this.isMenuOpen = false;
+
+    this.refresh.emit(itemList);
+
+  }
+
+  public toggleAccordion(): void {
+    this.isMenuOpen = !this.isMenuOpen;
+  }
 
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { IList } from 'src/app/core/interfaces/backend-interfaces';
 import { CoreService } from 'src/app/core/services/core.service';
 import { IListItem } from '../../../core/interfaces/backend-interfaces';
@@ -12,6 +12,7 @@ import { IListItem } from '../../../core/interfaces/backend-interfaces';
 })
 export class ListItemsPage implements OnInit {
 
+  listId;
   list: IList;
   totalList = 0;
 
@@ -21,29 +22,46 @@ export class ListItemsPage implements OnInit {
   constructor(
     private coreService: CoreService,
     private activatedRoute: ActivatedRoute,
-    private router: Router,
     private formBuilder: FormBuilder,
+    private router: Router
   ) {
 
-    const id = this.activatedRoute.snapshot.paramMap.get('id');
+    // build form
+    this.itemsForm = this.formBuilder.group({
+      items: this.formBuilder.array([]),
+    });
+
+    // get url patameters
+    this.activatedRoute.paramMap.subscribe((paramMap: ParamMap) => {
+      this.listId = +paramMap.get('id');
+      if (this.listId) {
+        this.loadInformationList(this.listId);
+      } else {
+        this.router.navigate(['../../'], { relativeTo: this.activatedRoute.parent });
+      }
+    });
+
+  }
+
+
+  loadInformationList(id) {
     this.list = this.coreService.getList(id);
 
     if (this.list.items.length > 0) {
       this.totalList = this.list.total;
     }
 
-    this.itemsForm = this.formBuilder.group({
-      items: this.formBuilder.array([]),
-    });
+    this.items.reset();
+    this.items.clear();
 
-    this.setItem(this.list.items);
+    this.setItems(this.list.items);
 
   }
 
   ngOnInit() {
   }
 
-  setItem(items: IListItem[]) {
+  private setItems(items: IListItem[]) {
     if (items) {
       for (const item of items) {
         const itemControls = this.formBuilder.group({
@@ -57,6 +75,18 @@ export class ListItemsPage implements OnInit {
         this.items.push(itemControls);
       }
     }
+  }
+
+  setItem(item: IListItem) {
+    const itemControls = this.formBuilder.group({
+      id: item.id,
+      description: item.description,
+      price: item.price,
+      quantity: item.quantity,
+      total: item.total,
+      complete: item.complete,
+    });
+    this.items.push(itemControls);
   }
 
   onCompleteChange(item) {
@@ -115,10 +145,6 @@ export class ListItemsPage implements OnInit {
     this.items.removeAt(index);
 
     this.coreService.saveData();
-  }
-
-  addItem() {
-    this.router.navigate([`/app/tab1/add-item/${this.list.id}`]);
   }
 
 }

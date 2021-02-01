@@ -25,6 +25,7 @@ export class AuthGuard implements CanLoad, CanActivate {
     }
 
     private validateAcces(path: string) {
+        console.log(path);
         return true;
     }
 }

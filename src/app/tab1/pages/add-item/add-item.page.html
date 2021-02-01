@@ -1,49 +1,40 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref='/'></ion-back-button>
-    </ion-buttons>
-    <ion-title>
-      Agregar articulo
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<div class="card">
+  <ion-item lines="none" (click)="toggleAccordion()" color="primary">
+    <ion-label>Agregar articulo</ion-label>
+    <ion-icon slot="end" [name]="isMenuOpen ? 'remove' : 'add' "></ion-icon>
+  </ion-item>
 
-<ion-content>
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Nuevo articulo</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <form [formGroup]="itemForm" (ngSubmit)="onItemFormSubmit()">
-        <ion-grid>
-          <ion-row>
-            <ion-col size="12">
-              <ion-item>
-                <ion-label position="stacked">Nombre Articulo</ion-label>
-                <ion-input type="text" formControlName="nameItem"></ion-input>
-              </ion-item>
-            </ion-col>
-            <ion-col>
-              <ion-item>
-                <ion-label position="stacked">Cantidad</ion-label>
-                <ion-input type="number" formControlName="quantity"></ion-input>
-              </ion-item>
-            </ion-col>
-            <ion-col>
-              <ion-item>
-                <ion-label position="stacked">Precio</ion-label>
-                <ion-input type="number" formControlName="price"></ion-input>
-              </ion-item>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-        <ion-button type="submit" expand="block" [disabled]="!itemForm.valid">
-          Agregar
-        </ion-button>
-      </form>
-    </ion-card-content>
-
-  </ion-card>
-
-</ion-content>
+  <div [ngClass]="this.isMenuOpen ? 'active' : 'inactive'">
+    <form [formGroup]="itemForm" (ngSubmit)="onItemFormSubmit()">
+      <ion-grid>
+        <ion-row>
+          <ion-col size="12">
+            <ion-item>
+              <ion-label position="stacked">Nombre Articulo</ion-label>
+              <ion-input type="text" formControlName="nameItem"></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <ion-item>
+              <ion-label position="stacked">Cantidad</ion-label>
+              <ion-input type="number" formControlName="quantity"></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <ion-item>
+              <ion-label position="stacked">Precio</ion-label>
+              <ion-input type="number" formControlName="price"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col class="ion-align-self-end">
+            <ion-button type="submit" [disabled]="!itemForm.valid" size="small">
+              Agregar
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </form>
+  </div>
+</div>

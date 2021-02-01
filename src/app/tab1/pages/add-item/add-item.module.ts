@@ -16,6 +16,9 @@ import { AddItemPage } from './add-item.page';
     IonicModule,
     AddItemPageRoutingModule
   ],
+  exports: [
+    AddItemPage
+  ],
   declarations: [AddItemPage]
 })
-export class AddItemPageModule {}
+export class AddItemPageModule { }
