@@ -27,7 +27,7 @@ export class CoreService {
 
   public getList(id: number | string) {
     id = Number(id);
-    return this.lists.find(data => data.id === id);;
+    return this.lists.find(data => data.id === id);
   }
 
   public createList(list: IList) {
