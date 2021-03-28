@@ -40,7 +40,7 @@ export class SignInPage implements OnInit {
     }, (error: any) => {
       console.log('Error', error);
     }, () => {
-      console.log('Logind');
+
     });
   }
 
